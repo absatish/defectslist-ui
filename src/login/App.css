@@ -7,6 +7,17 @@
   pointer-events: none;
 }
 
+.innertable{height:300px;width:300px;}
+table { width:300px; height:250px; }
+.roundedCorners { border: 1.4px solid black; border-radius: 2px; border-spacing: 0; }
+table.roundedCorners td,
+table.roundedCorners th { border-bottom: 1px solid black; }
+table.roundedCorners tr:last-child > td { border-bottom: none; }
+table.noStyles { border: none; border-radius: 13px; border-spacing: 0; }
+table.noStyles td,
+table.roundedCorners th { border-bottom: none; padding: 2px; }
+table.noStyles tr:last-child > td { border-bottom: none;padding: 2px; }
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
