@@ -4,16 +4,17 @@ import axios from "axios";
 import { Card } from "react-bootstrap";
 import Button from "react-bootstrap";
 import Table from "react-bootstrap/Table";
-
+import GridItemLoader from "./GridItemLoader.tsx";
 import styles from './App.css';
 
-class GridItemConnector extends React.Component<{}, {error: any, isLoaded: boolean, result:any, complaintId: string, column: boolean, row: boolean}> {
+class GridItemConnector extends React.Component<{}, {error: any, reload:boolean, isLoaded: boolean, result:any, complaintId: string, column: boolean, row: boolean}> {
 
 
   constructor(props) {
       super(props);
       this.state = {
           error: null,
+          reload: false,
           isLoaded: false,
           result: null,
           complaintId: props.complaintId,
@@ -22,24 +23,25 @@ class GridItemConnector extends React.Component<{}, {error: any, isLoaded: boole
       };
       this.componentDidMount = this.componentDidMount.bind(this);
       this.reload = this.reload.bind(this);
-      this.render = this.render.bind(this);
   }
 
   async reload() {
     this.setState({
       complaintId: this.state.complaintId,
-      isLoaded: false
+      isLoaded: false,
     })
     await axios.get("http://localhost:8080/app/v3/defects/test/grid-item/" + this.state.complaintId)  
         .then((result) => {
             this.setState({
                 isLoaded: true,
+                reload: false,
                 result:result.data
               });
         },
         (error) => {
             this.setState({
                 isLoaded: true,
+                reload: true,
                 error
             });
             }
@@ -51,7 +53,6 @@ class GridItemConnector extends React.Component<{}, {error: any, isLoaded: boole
         .then((result) => {
             this.setState({ 
                 isLoaded: true,
-
                 result:result.data
             });
         },
@@ -90,10 +91,13 @@ class GridItemConnector extends React.Component<{}, {error: any, isLoaded: boole
           borderBottom: '1px solid black',
           width:'200px'
         }
-        const { error, isLoaded, complaintId, result } = this.state;
+        const { reload, error, isLoaded, complaintId, result } = this.state;
+        if (reload) {
+          return <div>Reload</div>
+        }
         if (!isLoaded) {
           return <div style={{alignItems:"center"}}><img style={{marginTop:"50px", marginLeft:"100px", height:"100px", width:"100px"}} src="../loading.gif"/></div>;
-        } else if (error || result.errorMessage) {
+        } else if (error) {
           return <div style={{"color":"red"}}>Something went wrong <br></br><button onClick={this.reload}>Reload the page</button>
           </div>
         } else {
@@ -187,53 +191,7 @@ class GridItemConnector extends React.Component<{}, {error: any, isLoaded: boole
               </tr>
               </tbody>
             </table>)
-            // <table style={{"borderWidth":"1px", borderBottom:"1px solid black", position:"relative",
-            // boxLines:'multiple',
-            //  marginTop:"-10px", borderInline:"trie", 'borderStyle':'solid', borderRadius:'5px'}}>
-            //   <tr aria-colspan={2}><th>InWarrantyDefectiveParts</th></tr>
-            //   <tr>
-            //     <td width="20%" style={{width:"20px", border: "1px solid black"}}>Branch Name</td>
-            //     <td style={{border: "1px solid black"}}>{result.branchName}</td>
-            //   </tr>
-            //   <tr>
-            //     <td style={{border: "1px solid black"}}>Complaint No</td>
-            //     <td style={{border: "1px solid black"}}>{result.complaintNumber}</td>
-            //   </tr>
-              {/*<tr>
-                <td style={{border: "1px solid black"}}>Date</td>
-                <td style={{border: "1px solid black"}}>{result.date}</td>
-              </tr>
-              <tr>
-                <td style={{border: "1px solid black"}}>Product</td>
-                <td style={{border: "1px solid black"}}>{result.product}</td>
-              </tr>
-              <tr>
-                <td style={{border: "1px solid black"}}>ModelName</td>
-                <td style={{border: "1px solid black"}}>{result.model}</td>
-              </tr>
-              <tr>
-                <td style={{border: "1px solid black"}}>Serial Number</td>
-                <td style={{border: "1px solid black"}}>{result.serialNumber}</td>
-              </tr>
-              <tr>
-                <td style={{border: "1px solid black"}}>DOP</td>
-                <td style={{border: "1px solid black"}}>{result.dop}</td>
-              </tr>
-              <tr>
-                <td style={{border: "1px solid black"}}>Spare Name</td>
-                <td style={{border: "1px solid black"}}>{result.spareName}</td>
-              </tr>
-              <tr>
-                <td style={{border: "1px solid black"}}>Actual Fault</td>
-                <td style={{border: "1px solid black"}}>{result.actualFault}</td>
-              </tr>
-              <tr>
-                <td style={{border: "1px solid black"}}>Tech Name</td>
-                <td style={{border: "1px solid black"}}>{result.techName}</td>
-              </tr> */}
-          //   </table>
-          // );
-        }
+        }       
       }
 };
 

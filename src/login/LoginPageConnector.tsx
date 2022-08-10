@@ -27,7 +27,8 @@ class LoginPageConnector extends React.Component<{}, {error: any, isLoaded: bool
   }
 
   componentDidMount() {
-      axios.get("http://localhost:8080/app/v3/defects")
+    
+      axios.get("http://localhost:8080/app/v3/defects/test")
         .then((result) => {
             this.setState({
                 isLoaded: true,
@@ -47,9 +48,13 @@ class LoginPageConnector extends React.Component<{}, {error: any, isLoaded: bool
 
     async loginRequest(loginRequest: LoginRequest) {
 
+    
       const data:string = `username=${loginRequest.username}&password=${loginRequest.password}&captcha=${loginRequest.captcha}&id=${loginRequest.sessionId}&server=${loginRequest.serverId}&includeOther=off&showOnlyNumbers=off`
 
-      await axios.post("http://localhost:8080/app/v3/defects/login", data)  
+      this.setState({
+
+      })
+      await axios.post("http://localhost:8080/app/v3/defects/test/login", data)  
       .then((result) => {
             this.setState({
               isLoaded: true,
