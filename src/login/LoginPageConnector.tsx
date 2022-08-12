@@ -54,7 +54,7 @@ class LoginPageConnector extends React.Component<{}, {error: any, isLoaded: bool
       this.setState({
 
       })
-      await axios.post("http://localhost:8080/app/v3/defects/test/login", data)  
+      await axios.post("http://localhost:8080/app/v3/defects/login", data)  
       .then((result) => {
             this.setState({
               isLoaded: true,
