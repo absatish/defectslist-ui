@@ -96,7 +96,7 @@ class GridItemConnector extends React.Component<{}, {error: any, reload:boolean,
           return <div>Reload</div>
         }
         if (!isLoaded) {
-          return <div style={{alignItems:"center"}}><img style={{marginTop:"50px", marginLeft:"100px", height:"100px", width:"100px"}} src="../loading.gif"/></div>;
+          return <div style={{alignItems:"center"}}><img style={{marginTop:"50px", marginLeft:"100px", height:"100px", width:"100px"}} src="https://raw.githubusercontent.com/absatish/defectslist-ui/main/public/loading.gif"/></div>;
         } else if (error) {
           return <div style={{"color":"red"}}>Something went wrong <br></br><button onClick={this.reload}>Reload the page</button>
           </div>

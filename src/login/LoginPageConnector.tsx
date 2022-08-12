@@ -148,7 +148,7 @@ class LoginPageConnector extends React.Component<{}, {error: any, isLoaded: bool
         if (error) {
           return <div><a>Something went wrong..! Possible reason : {error.message}</a></div>;
         } else if (!isLoaded) {
-          return <div><img style={{position: 'relative', marginTop:'15%', marginLeft:'40%',height:"100px", width:"100px"}} src="../loading.gif"/></div>;
+          return <div><img style={{position: 'relative', marginTop:'15%', marginLeft:'40%',height:"100px", width:"100px"}} src="https://raw.githubusercontent.com/absatish/defectslist-ui/main/public/loading.gif"/></div>;
         } else if (result.errorMessage) {
           return <div>{result.errorMessage}</div>
         } else if (loginSuccess) {
