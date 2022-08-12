@@ -30,7 +30,7 @@ class GridItemConnector extends React.Component<{}, {error: any, reload:boolean,
       complaintId: this.state.complaintId,
       isLoaded: false,
     })
-    await axios.get("http://localhost:8080/app/v3/defects/grid-item/" + this.state.complaintId)  
+    await axios.get("https://winter-citizen-328416.el.r.appspot.com/app/v3/defects/grid-item/" + this.state.complaintId)  
         .then((result) => {
             this.setState({
                 isLoaded: true,
@@ -49,7 +49,7 @@ class GridItemConnector extends React.Component<{}, {error: any, reload:boolean,
   }
 
   async componentDidMount() {
-        await axios.get("http://localhost:8080/app/v3/defects/grid-item/" + this.state.complaintId)  
+        await axios.get("https://winter-citizen-328416.el.r.appspot.com/app/v3/defects/grid-item/" + this.state.complaintId)  
         .then((result) => {
             this.setState({ 
                 isLoaded: true,

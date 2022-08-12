@@ -28,7 +28,7 @@ class LoginPageConnector extends React.Component<{}, {error: any, isLoaded: bool
 
   componentDidMount() {
     
-      axios.get("http://localhost:8080/app/v3/defects/test")
+      axios.get("https://winter-citizen-328416.el.r.appspot.com/app/v3/defects")
         .then((result) => {
             this.setState({
                 isLoaded: true,
@@ -54,7 +54,7 @@ class LoginPageConnector extends React.Component<{}, {error: any, isLoaded: bool
       this.setState({
 
       })
-      await axios.post("http://localhost:8080/app/v3/defects/login", data)  
+      await axios.post("https://winter-citizen-328416.el.r.appspot.com/app/v3/defects/login", data)  
       .then((result) => {
             this.setState({
               isLoaded: true,
