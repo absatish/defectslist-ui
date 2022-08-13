@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/defectslist-ui/static/css/main.fc9074c5.css",
-    "main.js": "/defectslist-ui/static/js/main.81fdc111.js",
+    "main.js": "/defectslist-ui/static/js/main.777ecf67.js",
     "static/js/787.d075a694.chunk.js": "/defectslist-ui/static/js/787.d075a694.chunk.js",
     "index.html": "/defectslist-ui/index.html",
     "main.fc9074c5.css.map": "/defectslist-ui/static/css/main.fc9074c5.css.map",
-    "main.81fdc111.js.map": "/defectslist-ui/static/js/main.81fdc111.js.map",
+    "main.777ecf67.js.map": "/defectslist-ui/static/js/main.777ecf67.js.map",
     "787.d075a694.chunk.js.map": "/defectslist-ui/static/js/787.d075a694.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.fc9074c5.css",
-    "static/js/main.81fdc111.js"
+    "static/js/main.777ecf67.js"
   ]
 }
