@@ -6,6 +6,7 @@ class LoginRequest {
         this.captcha = props!.catpcha;
         this.serverId = props!.serverId;
         this.sessionId = props!.sessionId;
+        this.includeOthers = props!.includeOthers
     }
 
     username?:string;
@@ -13,6 +14,7 @@ class LoginRequest {
     captcha?:number;
     sessionId?:string;
     serverId?:string;
+    includeOthers?:boolean;
 }
 
 export default LoginRequest;

@@ -7,7 +7,7 @@ import Table from "react-bootstrap/Table";
 import GridItemLoader from "./GridItemLoader.tsx";
 import styles from './App.css';
 
-class GridItemConnector extends React.Component<{}, {error: any, reload:boolean, isLoaded: boolean, result:any, complaintId: string, column: boolean, row: boolean}> {
+class GridItemConnector extends React.Component<{}, {error: any, reload:boolean, isLoaded: boolean, result:any, complaintId: string, column: boolean, row: boolean, loggedInUser?: string}> {
 
 
   constructor(props) {
@@ -19,7 +19,8 @@ class GridItemConnector extends React.Component<{}, {error: any, reload:boolean,
           result: null,
           complaintId: props.complaintId,
           column: props.column,
-          row: props.row
+          row: props.row,
+          loggedInUser: props.loggedInUser
       };
       this.componentDidMount = this.componentDidMount.bind(this);
       this.reload = this.reload.bind(this);
@@ -30,7 +31,7 @@ class GridItemConnector extends React.Component<{}, {error: any, reload:boolean,
       complaintId: this.state.complaintId,
       isLoaded: false,
     })
-    await axios.get("https://winter-citizen-328416.el.r.appspot.com/app/v3/defects/grid-item/" + this.state.complaintId)  
+    await axios.get("http://localhost:8080/app/v3/defects/grid-item/" + this.state.complaintId + "?loggedInUser=" + this.state.loggedInUser)  
         .then((result) => {
             this.setState({
                 isLoaded: true,
@@ -49,7 +50,7 @@ class GridItemConnector extends React.Component<{}, {error: any, reload:boolean,
   }
 
   async componentDidMount() {
-        await axios.get("https://winter-citizen-328416.el.r.appspot.com/app/v3/defects/grid-item/" + this.state.complaintId)  
+        await axios.get("http://localhost:8080/app/v3/defects/grid-item/" + this.state.complaintId + "?loggedInUser=" + this.state.loggedInUser)  
         .then((result) => {
             this.setState({ 
                 isLoaded: true,

@@ -46,15 +46,15 @@ class LoginPageConnector extends React.Component<{}, {error: any, isLoaded: bool
   }
     
 
-    async loginRequest(loginRequest: LoginRequest) {
+    loginRequest(loginRequest: LoginRequest) {
 
     
-      const data:string = `username=${loginRequest.username}&password=${loginRequest.password}&captcha=${loginRequest.captcha}&id=${loginRequest.sessionId}&server=${loginRequest.serverId}&includeOther=off&showOnlyNumbers=off`
+      const data:string = `username=${loginRequest.username}&password=${loginRequest.password}&captcha=${loginRequest.captcha}&id=${loginRequest.sessionId}&server=${loginRequest.serverId}&includeOther=${loginRequest.includeOthers}&showOnlyNumbers=off`
 
       this.setState({
-
+        isLoaded: false
       })
-      await axios.post("https://winter-citizen-328416.el.r.appspot.com/app/v3/defects/login", data)  
+      axios.post("https://winter-citizen-328416.el.r.appspot.com/app/v3/defects/login", data)  
       .then((result) => {
             this.setState({
               isLoaded: true,
@@ -83,7 +83,12 @@ class LoginPageConnector extends React.Component<{}, {error: any, isLoaded: bool
         loginRequest = this.state.loginRequest!
       }
       console.log(JSON.stringify(loginRequest));
-      this.loginRequest(loginRequest);
+      if (loginRequest && loginRequest.username && loginRequest.password && loginRequest.sessionId && loginRequest.serverId && loginRequest.captcha) {
+        this.loginRequest(loginRequest);
+      } else {
+        return this.loginForm({errorMessage:'invalid fields'})
+      }
+      
     }
     
     handleInput(event) {
@@ -94,6 +99,7 @@ class LoginPageConnector extends React.Component<{}, {error: any, isLoaded: bool
         localLoginRequest.username = this.state.loginRequest!.username;
         localLoginRequest.password = this.state.loginRequest!.password;
         localLoginRequest.captcha = this.state.loginRequest!.captcha;
+        localLoginRequest.includeOthers = this.state.loginRequest!.includeOthers;
       }
       this.setState({
         loginRequest: {
@@ -102,6 +108,7 @@ class LoginPageConnector extends React.Component<{}, {error: any, isLoaded: bool
           captcha: localLoginRequest.captcha,
           sessionId: this.state.result.sessionId,
           serverId: this.state.result.serverId,
+          includeOthers: this.state.result.includeOther,
           [target.name]: target.value
         },
         result: this.state.result
@@ -111,25 +118,102 @@ class LoginPageConnector extends React.Component<{}, {error: any, isLoaded: bool
     }
 
     loginForm(result) {
+
+      const width:string = '350px';
+      const widthH:string = '120px';
+      const widthC:string = '230px';
+
+      const roundedCornerTable= {
+        width: width,
+        height:'200px',
+        border:'1px solid black',
+        borderRadius:'2px',
+        borderSpacing:'0',
+        fontSize:'15px',
+        marginTop: '10%',
+        marginLeft: '35%'
+        
+      }
+      const tr={
+        width
+      }
+      const roundedCornerMainTd= {
+        borderBottom: '1px solid black',
+        width
+      }
+      const roundedCornerHeadingTd= {
+        borderBottom: '0px solid black',
+        width:widthH
+      }
+      const roundedCornerContentTd= {
+        borderBottom: '0px solid black',
+        width:widthC
+      }
+      const inputBox={
+        width: '97%',
+        height: '97%'
+      }
+
       return (
         <html>
           <body>
-            <Card style={{border: `1.4px solid black`, position: 'relative', marginTop:'15%', marginLeft:'40%', marginRight:'60%',
-              right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center', width:'310px',
-               height:'225px',  fontSize:'13px'}}>
-                <Card.Title  style={{position:'relative', marginTop:'0%', marginLeft:'35%', fontSize:'25px'}}>Login</Card.Title>
-                <Card.Body>
-                  <Card.Text>
-                  <form style={{position:'relative', marginTop:'15%', marginLeft:'25%'}} onSubmit={this.handleOnSubmit}>
-                    <input type="text" name="username" onChange={this.handleInput} placeholder="Enter username"></input><br></br><br></br>
-                    <input type="password" name="password" onChange={this.handleInput} placeholder="Enter password"></input><br></br>
-                    <img src={result.captchaImageUrl}></img><br></br>
-                    <input type="text" name="captcha" onChange={this.handleInput} placeholder="Enter captcha"></input><br></br><br></br>
-                    <button style={{marginLeft:'23%'}} type="submit" name="Login" value="login">Login</button>
-                  </form>
-                  </Card.Text>
+            <form style={roundedCornerTable} onSubmit={this.handleOnSubmit}>
+                    
+            <table>
+               <thead>
+                <tr style={tr}>
+                  <th style={roundedCornerMainTd} colSpan={2}> Login Page </th>
+                </tr>
+              </thead>
+              <tbody>
+              <tr style={tr}>
+                  <td style={roundedCornerHeadingTd}>
+                    Username
+                  </td>
+                  <td style={roundedCornerContentTd}>
+                  <input style={inputBox} type="text" name="username" onChange={this.handleInput} placeholder="Enter username"></input>
+                  </td>
+                </tr>
+                <tr style={tr}>
+                  <td style={roundedCornerHeadingTd}>
+                    Password
+                  </td>
+                  <td style={roundedCornerContentTd}>
+                    <input style={inputBox} type="password" name="password" onChange={this.handleInput} placeholder="Enter password"></input>
+                  </td>
+                </tr>
+                <tr style={tr}>
+                  <td style={roundedCornerHeadingTd}>
+                    <img src={result.captchaImageUrl}></img>
+                  </td>
+                  <td style={roundedCornerContentTd}>
+                    <input style={inputBox} type="text" name="captcha" onChange={this.handleInput} placeholder="Enter captcha"></input>
+                  </td>
+                </tr>
+                <tr style={tr}>
+                  <td style={roundedCornerHeadingTd}>
+                    <input style={inputBox} type="checkbox" name="includeOthers" onChangeCapture={this.handleInput}></input>
+                  </td>
+                  <td style={roundedCornerContentTd}>
+                    Show Other Complaints                    
+                  </td>
+                </tr>
+                <tr style={tr}>
+                  <td colSpan={2} style={roundedCornerContentTd}>
+                    <button style={{marginLeft:'30%',width:'50%'}} type="submit" name="Login" value="login">Login</button>
+                  </td>
+                </tr>
+                <tr style={tr}>
+                  <td colSpan={2} style={roundedCornerContentTd}>
+                      <div style={{fontSize:'13px',color:'red'}}>{result.errorMessage}</div>  
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+                  {/* </Card.Text>
                 </Card.Body>
-            </Card>
+            </Card> */}
         </body>
         </html>
       );
@@ -145,12 +229,13 @@ class LoginPageConnector extends React.Component<{}, {error: any, isLoaded: bool
 
     render() {
         const { error, isLoaded, loginSuccess, result } = this.state;
-        if (error) {
-          return <div><a>Something went wrong..! Possible reason : {error.message}</a></div>;
-        } else if (!isLoaded) {
+        if (!isLoaded) {
           return <div><img style={{position: 'relative', marginTop:'15%', marginLeft:'40%',height:"100px", width:"100px"}} src="https://raw.githubusercontent.com/absatish/defectslist-ui/main/public/loading.gif"/></div>;
-        } else if (result.errorMessage) {
-          return <div>{result.errorMessage}</div>
+        } else if (error || result.errorMessage) {
+          if (error) {
+            return this.loginForm({errorMessage:error.message});
+          }
+          return this.loginForm(result);
         } else if (loginSuccess) {
           let output = new Array();
           let j=0;
@@ -160,7 +245,7 @@ class LoginPageConnector extends React.Component<{}, {error: any, isLoaded: bool
             if (row) {
               j=0;
             }
-            output.push(<GridItemConnector complaintId={result.complaintIds[i]} column={true} row={false}></GridItemConnector>)
+            output.push(<GridItemConnector loggedInUser={result.loggedInUser} complaintId={result.complaintIds[i]} column={true} row={false}></GridItemConnector>)
             j++;
           }
           let finalOutput = new Array();
